@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #C94E01;
+  --color-bg: #ffffff;
+  --color-text: #222;
+  --color-text-soft: #666;
+  --color-border: #e5e5e5;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(to right,
+  #faf3e6 0%, 
+  #c94e0146 50%, 
+  #004b574a 100%);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
