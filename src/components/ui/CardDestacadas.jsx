@@ -1,9 +1,14 @@
+import Button from "../ui/Button";
+
+import "../../styles/destacadas.css";
+
 export default function CardDestacadas() {
     return (
-        <div className="card">
-            
-            <h3>Experiencia Destacada</h3>
-            <p>Descripción de la experiencia destacada.</p>
+        <div className="card-destacadas">
+            {/* <img src="" alt="" /> */}
+            <h3>Nombre</h3>
+            <p>Ubicacion</p>
+            <Button>Ver mas</Button>
         </div>
     )
 }   
