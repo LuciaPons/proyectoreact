@@ -14,8 +14,7 @@ export default function Navbar() {
             </div>
             <nav className='navbar-center'>
                 <NavLink to="/">Inicio</NavLink>
-                <NavLink to="/about">Experiencias</NavLink>
-                <NavLink to="/contact">Destinos</NavLink>
+                <NavLink to="/experiences">Experiencias</NavLink>
             </nav>
             <div className='navbar-right'>
                 <Link to="/profile">

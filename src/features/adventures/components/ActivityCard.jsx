@@ -1,4 +1,4 @@
-
+import Button from "../../../components/ui/Button";
 
 function ActivityCard({ activity }) {
     if (!activity) return null;
