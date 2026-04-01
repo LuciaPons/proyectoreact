@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;
@@ -25,4 +29,19 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+@layer components {
+  .card {
+    @apply 
+    bg-white 
+    rounded-2xl 
+    w-full
+    gap-4
+    shadow-md  
+    overflow-hidden 
+    transition duration-300  
+    hover:shadow-xl 
+    hover:-translate-y-1;
+  }
 }

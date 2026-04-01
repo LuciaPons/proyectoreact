@@ -1,3 +1,10 @@
+import caminataImg from "../../../assets/images/Caminata.jpg";
+import yogaImg from "../../../assets/images/Yoga.jpg";
+import trekkingImg from "../../../assets/images/Trekking.jpg";
+import paddelsurfImg from "../../../assets/images/Paddelsurf.jpg";
+import rappelImg from "../../../assets/images/Rappel.jpg";
+import paracaidismoImg from "../../../assets/images/Paracaidismo.jpg";
+
 const DELAY_MS = 400;
 
 function delay(ms = DELAY_MS) {
@@ -12,7 +19,7 @@ const adventures = [
             {
                 id: 1, 
                 activity: "Caminata", 
-                /* image: "../assets/haonan-wei-Ard57Te3Hxw-unsplash.jpg", */ 
+                image: caminataImg,
                 location: "Rambla",
                 city: "Montevideo", 
                 duration: "1 hora", 
@@ -25,7 +32,7 @@ const adventures = [
             {
                 id: 2, 
                 activity: "Yoga", 
-                /* image: "../assets/amauri-mejia-GvF7RkA-E9Q-unsplash.jpg", */ 
+                image: yogaImg,
                 location: "Parque Rodo",
                 city: "Montevideo",
                 duration: "1 hora", 
@@ -44,7 +51,7 @@ const adventures = [
             {
                 id: 3, 
                 activity: "Trekking", 
-                /* image: "../assets/anders-nielsen-8jQFXXSTvbw-unsplash.jpg", */ 
+                image: trekkingImg,
                 location: "Sierra de las Animas",
                 city: "Maldonado",
                 duration: "5 horas", 
@@ -57,7 +64,7 @@ const adventures = [
             {
                 id: 4, 
                 activity: "Paddelsurf", 
-                /* image: "../assets/piratedea-S0yTuhrno5U-unsplash.jpg", */ 
+                image: paddelsurfImg, 
                 location: "Puente de la Barra",
                 city: "Maldonado", 
                 duration: "1 hora 30 minutos", 
@@ -76,7 +83,7 @@ const adventures = [
             {
                 id: 5, 
                 activity: "Rappel", 
-                /* image: "../assets/balu-gaspar-Ys5B-lnJrco-unsplash.jpg",  */
+                image: rappelImg,
                 location: "Salto del Penitente",
                 city: "Lavalleja",
                 duration: "2 horas", 
@@ -89,7 +96,7 @@ const adventures = [
             {
                 id: 6, 
                 activity: "Paracaidismo", 
-                /* image: "../assets/kamil-pietrzak-H22w-tq0SeQ-unsplash.jpg", */ 
+                image: paracaidismoImg,
                 location: "Aeropuerto el Jaguel", 
                 city: "Maldonado",
                 duration: "40 minutos", 

@@ -1,6 +1,6 @@
 import { adventuresApi } from "../services/asyncMock";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import AdventuresList from "./AdventuresList";
 
 function AdventuresContainer() {
@@ -40,31 +40,62 @@ function AdventuresContainer() {
         fetchData();
     }, [levelId, city]);
 
-    if (loading) return <p>Cargando experiencias...</p>;
-    if (error) return <p>{error}</p>;
-    if (adventures.length === 0) return <p>No hay aventuras disponibles.</p>;
+    if (loading) return <p className="text-center mt-10">Cargando experiencias...</p>;
+    if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
+
+    const filterClass = ({isActive}) => 
+        `px-4 py-2 rounded-[8px] text-[12px] transition border 
+        ${isActive
+            ? "bg-[#025159] text-white border-black"
+            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+        }`;
 
     return (
         <main>
-            <h1>Experiencias</h1>
-            <div className="filters">
-                <div className="levels">
-                    <Link to="/experiences">Todas</Link>
-                    <Link to="/experiences/suave">Suave</Link>
-                    <Link to="/experiences/medio">Medio</Link>
-                    <Link to="/experiences/extremo">Extremo</Link>
+            <h1 className="text-[32px] text-center font-semibold text-orange-800 p-4">
+                Experiencias
+            </h1>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 m-10">
+                <div className="flex flex-wrap gap-4 justify-center">
+                    <NavLink to="/experiences" end className={filterClass}>
+                        Todas
+                    </NavLink>
+                    <NavLink to="/experiences/suave" className={filterClass}>
+                        Suave
+                    </NavLink>
+                    <NavLink to="/experiences/medio" className={filterClass}>
+                        Medio
+                    </NavLink>
+                    <NavLink to="/experiences/extremo" className={filterClass}>
+                        Extremo
+                    </NavLink>
                 </div>
-                <div className="city-filter">
-                    <select value={city} onChange={(e) => setCity(e.target.value)}>
+                <div>
+                    <select 
+                    value={city} 
+                    onChange={(e) => setCity(e.target.value)}
+                    className="px-4 py-2 rounded-[8px] border border-gray-100 bg-white shadow-lg hover:bg-gray-100 transition">
                         <option value="">Todas las ciudades</option>
                         <option value="Montevideo">Montevideo</option>
                         <option value="Maldonado">Maldonado</option>
                         <option value="Lavalleja">Lavalleja</option>
                     </select>
+                    
                 </div>
             </div>
             <section className="adventures-container">
-                <AdventuresList activities={adventures} />
+                {adventures.length === 0 ? (
+                    <p className="text-center mt-10">
+                        No encontramos experiencias con esos filtros. 
+                    </p>
+                    
+                ) : (
+                    <AdventuresList 
+                    activities={adventures}
+                    variant="all" />
+                )
+                }
+                
             </section>
         </main>
         

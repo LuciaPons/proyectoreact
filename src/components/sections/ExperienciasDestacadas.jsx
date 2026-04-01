@@ -24,8 +24,16 @@ function ExperienciasDestacadas() {
     if (loading) return <p>Cargando experiencias destacadas...</p>;
     return (
         <section>
-            <h2>Aventuras Destacadas</h2>
-            <AdventuresList activities={featured} />
+            <h2 
+            className="text-[32px] text-center font-semibold text-orange-800 p-4">
+                Aventuras Destacadas
+            </h2>
+            <div>
+                <AdventuresList 
+                activities={featured} 
+                variant="featured"/>
+            </div>
+            
         </section>
     );
 }
