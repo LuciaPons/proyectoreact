@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { adventuresApi } from "../../features/adventures/services/asyncMock";
 import AdventuresList from "../../features/adventures/components/AdventuresList";
+import Button from "../ui/Button";
 
 function ExperienciasDestacadas() {
     const [featured, setFeatured] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFeatured = async () => {
@@ -33,6 +36,12 @@ function ExperienciasDestacadas() {
                 activities={featured} 
                 variant="featured"/>
             </div>
+            <Button 
+            onClick={() => navigate("/experiences")}
+            variant="secondary"
+            className="block mx-auto mt-6">
+                Ver Todas las Experiencias
+            </Button>
             
         </section>
     );
