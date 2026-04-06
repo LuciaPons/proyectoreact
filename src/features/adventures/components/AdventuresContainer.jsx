@@ -65,6 +65,7 @@ function AdventuresContainer() {
             </h1>
             <div className="flex flex-col md:flex-row justify-around items-center gap-6 m-10">
                 <div className="flex flex-wrap gap-4 justify-center">
+                    <p className="text-[var(--color-text-soft)]">Filtros</p>
                     <NavLink to="/experiences" end 
                     className={filterClass}>
                         Todas
@@ -96,7 +97,6 @@ function AdventuresContainer() {
                 <Button 
                     onClick={handlerClearFilters}
                     variant="secondary"
-                    /* className="px-4 py-2 bg-red-500 text-white rounded-[8px] hover:bg-red-600 transition" */
                 >
                     Limpiar filtros
                 </Button>

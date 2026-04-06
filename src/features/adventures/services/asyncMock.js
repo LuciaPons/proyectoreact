@@ -91,6 +91,7 @@ const adventures = [
                 price: 4000,
                 capacity: 8,
                 availableSpots: 3,
+                //agregar description
                 featured: false
             },
             {

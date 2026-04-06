@@ -1,10 +1,21 @@
+import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 
 function ActivityCard({ activity }) {
+
     if (!activity) return null;
 
     return(
-        <div className="card">
+        <div className="
+        bg-white
+        rounded-2xl
+        w-full
+        gap-4
+        shadow-md
+        overflow-hidden
+        transition duration-300
+        hover:shadow-xl
+        hover:-translate-y-1">
             <div className="relative h-48 m-4 rounded-lg overflow-hidden">
                 <img 
                 src={activity.image} 
@@ -28,16 +39,29 @@ function ActivityCard({ activity }) {
                     </span>
                 </div>
             </div>
-            <div className="flex justify-between items-center p-4">
+            <div className="flex justify-between items-center p-4 ">
                 <span className="text-lg font-bold text-orange-600">
                     Precio: ${activity.price}
                 </span>
                 <span className="text-[14px] text-[var(--color-text-soft)]">
-                    {activity.availableSpots} cupos
+                    {activity.availableSpots <= 3 ? (
+                        <div className="flex flex-col items-end">
+                            <p>{activity.availableSpots} cupos disponibles</p>
+                            <p className="text-[var(--color-primary)] text-underline">
+                                Quedan pocos cupos disponibles!
+                            </p>
+                        </div>
+                    ): (
+                        <p>{activity.availableSpots} cupos disponibles</p>
+                    )}
                 </span>
             </div>
             <span className="flex justify-center mb-4">
-                <Button>Reservar</Button>
+                <Link to={`/experiences/${activity.id}`}>
+                    <Button variant="primary">
+                        Ver detalle
+                    </Button>
+                </Link>
             </span>
         </div>
     );

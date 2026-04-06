@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import AdventuresContainer from './features/adventures/components/AdventuresContainer';
+import ActivityDetailContainer from './features/adventures/components/ActivityDetailContainer';
 
 function App() {
     return (
@@ -10,7 +11,7 @@ function App() {
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/experiences" element={<AdventuresContainer />} />
-                    <Route path="/experiences/:levelId" element={<AdventuresContainer />} />
+                    <Route path="/experiences/:activityId" element={<ActivityDetailContainer />} />
                 </Route>
                 <Route path="*" element={<div> 404 - Página no encontrada</div>} />
             </Routes>

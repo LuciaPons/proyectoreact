@@ -1,4 +1,4 @@
-import ExperienciasDestacadas from "../components/sections/ExperienciasDestacadas";
+import ExperienciasDestacadas from "../features/adventures/sections/ExperienciasDestacadas";
 import ComoFunciona from "../components/sections/ComoFunciona";
 import "../styles/global.css";
 
