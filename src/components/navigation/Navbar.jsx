@@ -3,6 +3,7 @@ import avatar from '../../assets/icons/usuario.png';
 import carrito from '../../assets/icons/carrito.png';
 import { NavLink, Link } from 'react-router-dom';
 import { useCart } from '../../features/cart/context/CartContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 
 export default function Navbar() {
@@ -27,6 +28,7 @@ export default function Navbar() {
 
         `;
     
+    const {toggleAuth} = useAuth();
     const {toggleCart, totalItems } = useCart();
     
     return (
@@ -56,12 +58,13 @@ export default function Navbar() {
             </nav>
             
             <div className="flex items-center gap-4">
-                <Link to="/profile">
+                <button 
+                onClick={toggleAuth}>
                     <img 
                     src={avatar} 
                     alt="Avatar" 
                     className="h-10 cursor-pointer hover:opacity-80 transition" />
-                </Link>
+                </button>
                 <button 
                 onClick={toggleCart}
                 className='relative'>

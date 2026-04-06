@@ -92,7 +92,7 @@ export default function ComoFunciona() {
                     src={objetivo} 
                     alt="Objetivo" 
                     className="w-14 h-14" />
-                    <p>Reserva tu lugar</p>
+                    <p>Registrate</p>
                 </Link>
                 <Link 
                 to="/experiences"

@@ -13,16 +13,16 @@ const CartDrawer = () => {
                 />
             )}
             <div
-            className={`
-            fixed
-            top-0 right-0 
-            h-full w-80
-            bg-[#FAF3E6]
-            shadow-xl
-            z-50
-            transform transition-transform duration-300
-            ${isOpen ? "translate-x-0" : "translate-x-full"}
-            `}>
+                className={`
+                fixed
+                top-0 right-0 
+                h-full w-80
+                bg-[#FAF3E6]
+                shadow-xl
+                z-50
+                transform transition-transform duration-300
+                ${isOpen ? "translate-x-0" : "translate-x-full"}
+                `}>
                 <div className="p-4 flex justify-between items-center border-b border-b-[2px]">
                     <h2 className="font-bold text-lg">
                         Carrito
