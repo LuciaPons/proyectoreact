@@ -1,12 +1,4 @@
-
-
-/* const DELAY_MS = 400;
-
-function delay(ms = DELAY_MS) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-const activities = [
+export const activities = [
     {
         id: 1, 
         activity: "Caminata", 
@@ -92,60 +84,3 @@ const activities = [
         featured: true
     }
 ]
-
-
-let allAdventures = [...adventures];
-let orders = [];
-let nextOrderId = 1;
-
-export const adventuresApi = {
-
-    async getAll() {
-        await delay();
-        return [...allAdventures];
-    },
-
-    async getActivityById(activityId) {
-        await delay();
-
-        for (const adventure of allAdventures) {
-            const activity = adventure.activities.find(
-                (act) => act.id === Number(activityId)
-            );
-            if (activity) return { ...activity };
-        }
-
-        throw new Error("Actividad no encontrada");
-    },
-
-    async getActivityByLevel(levelId) {
-        await delay();
-
-        const adventure = allAdventures.find((adv) => adv.id === levelId);
-        if (adventure) return { ...adventure };
-    },
-
-    async getActivityByCity(city) {
-        await delay();
-
-        return allAdventures.flatMap((adv) => adv.activities.filter((act) => act.city.toLowerCase() === city.toLowerCase()));
-    }
-};
-
-export const ordersApi = {
-  async getAll() {
-    await delay();
-    return [...orders];
-  },
-
-  async create(items) {
-    await delay();
-    const order = {
-      id: String(nextOrderId++),
-      items: items || [],
-      createdAt: new Date().toISOString(),
-    };
-    orders.push(order);
-    return { ...order };
-  },
-}; */

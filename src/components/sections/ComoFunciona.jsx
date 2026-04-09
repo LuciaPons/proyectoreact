@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import calendario from "../../assets/icons/calendario1.png";
-import objetivo from "../../assets/icons/objetivo2.png";
+import seleccion from "../../assets/icons/seleccion.png"
+import registro from "../../assets/icons/registro.png"
 import aventura from "../../assets/icons/aventura.png";
 import Button from "../ui/Button";
+import { useAuth } from "../../features/auth/context/AuthContext";
+import { useCart } from "../../features/cart/context/CartContext";
 
 export default function ComoFunciona() {
+    const {openAuth} = useAuth();
+    const {openCart} = useCart();
+
     return (
         <section 
         className="
@@ -37,6 +42,7 @@ export default function ComoFunciona() {
                 p-6
                 rounded-lg
                 w-1/4
+                min-h-[100px]
                 shadow-md
                 hover:shadow-lg
                 transition
@@ -56,19 +62,20 @@ export default function ComoFunciona() {
                         1
                     </span>
                     <img 
-                    src={calendario} 
-                    alt="Calendario" 
+                    src={seleccion} 
+                    alt="Seleccion" 
                     className="w-14 h-14" />
-                    <p>Elegí la experiencia</p>
+                    <p>Elegí la experiencia que más se adapte a tí</p>
                 </Link>
-                <Link 
-                to="/experiences"
+                <button 
+                onClick={openAuth}
                 className="
                 relative 
                 bg-[var(--color-card-bg)] 
                 p-6 
                 rounded-lg 
                 w-1/4 
+                min-h-[100px]
                 shadow-md 
                 hover:shadow-lg 
                 transition 
@@ -89,19 +96,20 @@ export default function ComoFunciona() {
                         2
                     </span>
                     <img 
-                    src={objetivo} 
-                    alt="Objetivo" 
+                    src={registro} 
+                    alt="Registro" 
                     className="w-14 h-14" />
                     <p>Registrate</p>
-                </Link>
-                <Link 
-                to="/experiences"
+                </button>
+                <button 
+                onClick={openCart}
                 className="
                 relative 
                 bg-[var(--color-card-bg)] 
                 p-6 
                 rounded-lg 
                 w-1/4
+                min-h-[100px]
                 shadow-md 
                 hover:shadow-lg 
                 transition 
@@ -127,7 +135,7 @@ export default function ComoFunciona() {
                     alt="Aventura" 
                     className="w-14 h-14" />
                     <p>Viví la aventura</p>
-                </Link>
+                </button>
             </div>
             <div className="flex flex-col items-center gap-4 mt-10 mb-8">
                 <h3 className="text-[20px] text-center text-[var(--color-text-soft)]">
@@ -135,7 +143,7 @@ export default function ComoFunciona() {
                 </h3>
                 <Button
                 variant="primary"
-                onClick={() => {}}
+                onClick={openAuth}
                 >
                     Crear cuenta
                 </Button>

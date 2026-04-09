@@ -2,10 +2,11 @@ import { useState } from "react"
 import Register from "./Register";
 import Login from "./Login";
 import Button from "../../../components/ui/Button";
+import { useAuth } from "../context/AuthContext";
 
 
 const LoginOrRegister = () => {
-    const [mode, setMode] = useState("login");
+    const {mode, setMode} = useAuth();
 
     return(
         <div>

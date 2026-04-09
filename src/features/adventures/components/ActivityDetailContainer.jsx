@@ -1,4 +1,4 @@
-import { adventuresApi } from "../services/asyncMock";
+import { getActivityById } from "../services/adventures";
 import ActivityDetail from "./ActivityDetail";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,22 +9,22 @@ export default function ActivityDetailContainer() {
     const [error, setError] = useState("");
     const { activityId } = useParams();
 
+    console.log("id desde la url", activityId);
+    
+
     useEffect(() => {
         setLoading(true);
         setError("");
-        adventuresApi.getActivityById(activityId)
-            .then(setActivity)
-            .catch(() => setError("Actividad no encontrada."))
-            .finally(() => setLoading(false));
-    }, [activityId])
 
-    if (loading) {
-        return <div>Cargando detalles...</div>
-    }
-    if (error) {
-        return <div className="text-red-500">{error}</div>
-    }
-    console.log("id desde la url", activityId);
+        getActivityById(activityId)
+        .then(setActivity)
+        .catch((error) => setError("Actividad no encontrada."))
+        .finally(() => setLoading(false));
+    },[activityId]);
+
+    if (loading) return <p className= "text-center mt-10">Cargando detalles...</p>
+    if (error) return <p className= "text-center text-red-500 mt-10">{error}</p>;
+    
     
     return <ActivityDetail activity={activity} />
 }

@@ -41,7 +41,7 @@ export default function Navbar() {
                     className="h-20 hover:opacity-80 transition border-none rounded-[10px] " />
                 </Link>
             </div>
-            <nav className="flex flex-col md:flex-row items-center gap-2 md:gap-8">
+            <nav className="flex flex-col md:flex-row items-center gap-1 md:gap-8">
                 <NavLink 
                 to="/"
                 className={activeClass}

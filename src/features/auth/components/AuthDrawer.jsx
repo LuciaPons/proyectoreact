@@ -3,7 +3,14 @@ import Profile from "../components/Profile";
 import LoginOrRegister from "./LoginOrRegister";
 
 const AuthDrawer = () => {
-    const {isOpen, closeAuth, user} = useAuth();
+    const {isOpen, closeAuth, user, mode} = useAuth();
+    
+    let title = "Login";
+    if (user) {
+        title = "Perfil"
+    } else if (mode === "register") {
+        title = "Registro"
+    }
 
     return (
         <>
@@ -26,7 +33,7 @@ const AuthDrawer = () => {
                 <div className="p-4 flex justify-between items-center border-b border-b-[2px]">
                     <h2 className="font-bold text-lg"
                     >
-                        {user ? "Perfil" : "Login"}
+                        {title}
                     </h2>
                     <button
                     onClick={closeAuth}

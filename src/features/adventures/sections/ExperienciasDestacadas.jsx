@@ -1,30 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { adventuresApi } from "../services/asyncMock";
+import { getFeaturedActivities } from "../services/adventures";
 import AdventuresList from "../components/AdventuresList";
 import Button from "../../../components/ui/Button";
 
 function ExperienciasDestacadas() {
     const [featured, setFeatured] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchFeatured = async () => {
-            try {
-                const res = await adventuresApi.getAll();
-                const allActivities = res.flatMap((adv) => adv.activities);
-                const destacadas = allActivities.filter((act) => act.featured);
+        setLoading(true);
 
-                setFeatured(destacadas);
-            } catch (error) {
-                console.error("Error al cargar destacadas");
-            } finally {
-                setLoading(false);
-            }
-        }; fetchFeatured();
-    }, []);
-    if (loading) return <p>Cargando experiencias destacadas...</p>;
+        getFeaturedActivities()
+        .then(setFeatured)
+        .catch((err) => setError(err.message))
+        .finally(() => setLoading(false));
+    }, [])
+
+    if (loading) return <p className="text-center mt-10">Cargando experiencias destacadas...</p>;
+    if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
+
     return (
         <section>
             <h2 

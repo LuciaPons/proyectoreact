@@ -4,6 +4,8 @@ import Button from "../../../components/ui/Button";
 function ActivityCard({ activity }) {
 
     if (!activity) return null;
+    console.log(activity);
+    
 
     return(
         <div className="
@@ -27,7 +29,7 @@ function ActivityCard({ activity }) {
                     {activity.activity}
                 </h3>
                 <p className="text-[16px] text-[var(--color-text-soft)]">
-                    Ubicación: {activity.location}
+                    Ubicación: {activity.city}
                 </p>
 
                 <div className="flex justify-between text-[16px] text-[var(--color-text-soft)]">
@@ -57,7 +59,7 @@ function ActivityCard({ activity }) {
                 </span>
             </div>
             <span className="flex justify-center mb-4">
-                <Link to={`/experiences/${activity.id}`}>
+                <Link to={`/experiences/detail/${activity.id}`}>
                     <Button variant="primary">
                         Ver detalle
                     </Button>

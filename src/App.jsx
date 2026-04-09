@@ -11,7 +11,8 @@ function App() {
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/experiences" element={<AdventuresContainer />} />
-                    <Route path="/experiences/:activityId" element={<ActivityDetailContainer />} />
+                    <Route path="/experiences/level/:levelId" element={<AdventuresContainer />}/>
+                    <Route path="/experiences/detail/:activityId" element={<ActivityDetailContainer />} />
                 </Route>
                 <Route path="*" element={<div> 404 - Página no encontrada</div>} />
             </Routes>

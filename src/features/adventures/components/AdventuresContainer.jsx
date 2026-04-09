@@ -1,4 +1,4 @@
-import { adventuresApi } from "../services/asyncMock";
+import { getActivities, getByCity, getByLevel } from "../services/adventures";
 import { useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -6,42 +6,37 @@ import AdventuresList from "./AdventuresList";
 import Button from "../../../components/ui/Button";
 
 function AdventuresContainer() {
-    const [adventures, setAdventures] = useState([]);
+    const [activities, setActivities] = useState([]);
     const [city, setCity] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const {levelId} = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
-        setError("");
-
-        const fetchData = async () => {
-            try {
-                let data = [];
+        
+        getActivities()
+            .then((data) => {
+                let filtered = data;
 
                 if (levelId) {
-                    const res = await adventuresApi.getActivityByLevel(levelId);
-                    data = res?.activities || [];
-                }else{
-                    const res = await adventuresApi.getAll();
-                    data = res.flatMap((adv) => adv.activities);
+                    filtered = filtered.filter(
+                        item => item.difficulty?.toLowerCase().trim() === levelId.toLowerCase()
+                    );
                 }
+
                 if (city) {
-                    data = data.filter((act)=> act.city.toLowerCase() ===city.toLowerCase());
+                    filtered = filtered.filter(
+                        item => item.city === city
+                    );
                 }
-                setAdventures(data);
-
-            } catch (err) {
-                setError("No se pudieron cargar las aventuras. Por favor, intenta nuevamente.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [levelId, city]);
+                setActivities(filtered)
+            })
+            .catch((err) => setError(err.message))
+            .finally(() => setLoading(false));
+            
+    },[levelId, city]);
 
     if (loading) return <p className="text-center mt-10">Cargando experiencias...</p>;
     if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
@@ -70,17 +65,17 @@ function AdventuresContainer() {
                     className={filterClass}>
                         Todas
                     </NavLink>
-                    <NavLink to="/experiences/suave" 
+                    <NavLink to="/experiences/level/suave" 
                     className={filterClass}>
                         Suave
                     </NavLink>
-                    <NavLink to="/experiences/medio" 
+                    <NavLink to="/experiences/level/media" 
                     className={filterClass}>
-                        Medio
+                        Media
                     </NavLink>
-                    <NavLink to="/experiences/extremo" 
+                    <NavLink to="/experiences/level/extrema" 
                     className={filterClass}>
-                        Extremo
+                        Extrema
                     </NavLink>
                 </div>
                 <div>
@@ -102,14 +97,14 @@ function AdventuresContainer() {
                 </Button>
             </div>
             <section className="adventures-container">
-                {adventures.length === 0 ? (
+                {activities.length === 0 ? (
                     <p className="text-center mt-10">
                         No encontramos experiencias con esos filtros... 
                     </p>
                     
                 ) : (
                     <AdventuresList 
-                    activities={adventures}
+                    activities={activities}
                     variant="all" />
                 )
                 }

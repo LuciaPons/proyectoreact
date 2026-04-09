@@ -1,14 +1,17 @@
 import { useCart } from "../../../features/cart/context/CartContext";
 import { Link } from "react-router-dom";
+import Button from "../../../components/ui/Button";
 
 const ActivityDetail = ({ activity }) => {
     const { addToCart } = useCart();
+    if (!activity) return null;
 
     const difficultyStyles = {
-        suave: "bg-emerald-700 text-emerald-950",
-        media: "bg-orange-100 text-orange-600",
-        extrema: "bg-red-600 text-red-950"
+        suave: "bg-emerald-100 border-[2px] border-emerald-200 text-emerald-700",
+        media: "bg-orange-100 border-[2px] border-orange-200 text-orange-600",
+        extrema: "bg-red-100 border-[2px] border-red-200 text-red-700",
     }
+
     const availableSpots = activity.availableSpots > 0;
 
     const handleAddToCart = () => {
@@ -42,7 +45,7 @@ const ActivityDetail = ({ activity }) => {
             overflow-hidden">
                 <img 
                 src={activity.image} 
-                alt={activity.name}
+                alt={activity.activity}
                 className="h-full w-full object-cover rounded-xl" />
             </div>
             <div className={`space-y-4`}>
@@ -53,15 +56,16 @@ const ActivityDetail = ({ activity }) => {
                 uppercase
                 tracking-wider
                 rounded-full
-                ${difficultyStyles[activity.difficulty]}
+                shadow-lg
+                ${difficultyStyles[activity.difficulty?.toLowerCase()]}
                 `}>
                     {activity.difficulty}
                 </span>
                 <h2 className="text-2xl font-semibold">
                     {activity.activity}
                 </h2>
-                <p>Ubicaión: {activity.location}</p>
                 <p>Ciudad: {activity.city}</p>
+                <p>Ubicación: {activity.location}</p>
                 <p>Duración: {activity.duration}</p>
                 <p className="text-xl font-bold text-orange-600">
                     Precio: ${activity.price}
@@ -72,30 +76,32 @@ const ActivityDetail = ({ activity }) => {
                 ? `Cupos disponibles: ${activity.availableSpots}`
                 : "No hay cupos disponibles"}
                 </p>
-                <p className="text-gray-500 loading-relaxed">
+                <p className="text-gray-500 leading-relaxed">
                     {activity.description || "Descripción de la actividad no disponible."}
                 </p>
                 <div className="flex flex-wrap gap-3 items-center">
-                    <button 
-                    onClick={handleAddToCart} disabled={!availableSpots}
+                    <Button 
+                    onClick={handleAddToCart} 
+                    disabled={!availableSpots}
+                    variant="primary"
                     className={`
-                        px-6 py-3
-                        rounded-full
-                        font-semibold
-                        transition
                         ${availableSpots
-                        ? "bg-orange-500 text-white hover:bg-orange-600"
+                        ? "variant= primary"
                         : "bg-gray-200 text-gray-400 cursor-not-allowed"}
                     `}
                     >
-                        {availableSpots ? 
-                        "Agregar al carrito" 
+                        {availableSpots 
+                        ? "Agregar al carrito" 
                         : "Sin cupos disponibles"
                         }
-                    </button>
+                    </Button>
                     <Link 
-                    to="/experiences"
-                    className="text-orange-600 font-semibold hover:underline">
+                    to={`/experiences/${activity.id}`}
+                    className="
+                    text-orange-600 
+                    font-semibold
+                    m-3 
+                    hover:underline">
                         Ver todas las experiencias
                     </Link>
                 </div>

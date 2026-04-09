@@ -5,6 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [mode, setMode] = useState("login");
 
     const openAuth = () => setIsOpen(true);
     const closeAuth = () => setIsOpen(false);
@@ -40,6 +41,8 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 isOpen,
+                mode,
+                setMode,
                 openAuth,
                 closeAuth,
                 toggleAuth }}>

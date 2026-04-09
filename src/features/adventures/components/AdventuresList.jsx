@@ -9,7 +9,7 @@ const AdventuresList = ({ activities, variant }) => {
   return (
     <div className={styles[variant] || styles.all}>
       {activities.map((activity) => (
-        <ActivityCard key={activity.id} activity={activity} featured/>
+        <ActivityCard key={activity.id} activity={activity} />
       ))}
     </div>
   );
