@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
+import { auth } from "../../../services/firebase";
 import Button from "../../../components/ui/Button";
 
 
@@ -21,19 +24,34 @@ const Register = () => {
         });
     };
 
-    const handleSubmitRegister = (e) => {
+    const handleSubmitRegister = async (e) => {
         e.preventDefault();
         if (!form.name || !form.email || !form.password) {
             setError ("Debes completar todos los campos!");
             return;
         }
-        const newUser = {
-            id: Date.now(),
-            name: form.name,
-            email: form.email,
-        };
-        setError("")
-        login(newUser);
+        
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                form.email,
+                form.password
+            );
+            const user = userCredential.user;
+
+            await updateProfile(user, {displayName: form.name});
+
+            login ({
+                uid: user.uid,
+                email: user.email,
+                name: form.name
+            });
+
+            setError("");
+        }catch (err) {
+            console.log(err);
+            setError("Error al registrarse");
+        }
     };
     return (
         <form onSubmit={handleSubmitRegister} className="flex flex-col gap-3">

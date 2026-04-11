@@ -1,4 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../../services/firebase";
 
 const AuthContext = createContext();
 
@@ -12,10 +15,18 @@ export const AuthProvider = ({ children }) => {
     const toggleAuth = () => setIsOpen((prev) => !prev);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
+        const unsuscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser({
+                    uid: user.id,
+                    email: user.email,
+                    name: user.displayName
+                });
+            }else {
+                setUser(null);
+            }
+        });
+        return () => unsuscribe();
     },[]);
 
     useEffect(() => {
@@ -30,7 +41,8 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await signOut(auth);
         setUser(null);
     };
 
