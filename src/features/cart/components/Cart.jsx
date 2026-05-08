@@ -3,19 +3,25 @@ import { useAuth } from "../../auth/context/AuthContext";
 import { createOrder } from "../../adventures/services/orders";
 import CartItem  from "../components/CartItem";
 import Button from "../../../components/ui/Button"
+import { useState } from "react";
 
 
 const Cart = () => {
     const { cartItems, totalPrice, clearCart } = useCart();
     const { user, openAuth } = useAuth();
+    const [orderId, setOrderId] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
 
-    const handleChekout = async () => {
+    const handleCheckout = async () => {
+        setSuccess(false);
+        setError(false);
+
         if(!user) {
             openAuth();
             return;
         }
         if (cartItems.length === 0) {
-            alert("Tu carrito está vacío");
             return;
         }
         try {
@@ -24,15 +30,24 @@ const Cart = () => {
                 cartItems,
                 totalPrice
             );
-            alert("Compra realizada con éxito!");
+            setOrderId(orderId);
             await clearCart();
             console.log("Orden creada:", orderId);
+            setSuccess(true);
+
+            setTimeout(() => {
+                setSuccess(false);
+            }, 3000);
+
         } catch (error) {
             console.error(error);
-            alert("Error al procesar la compra");
+            setError(true);
+
+            setTimeout(() => {
+                setError(false);
+            }, 3000);
         }
     };
-
     
     return (
         <div className="p-4 bg-white rounded-xl shadow-md">
@@ -71,13 +86,23 @@ const Cart = () => {
             border-t-[2px] 
             m-2">
                 <Button
-                onClick={handleChekout}
+                onClick={handleCheckout}
                 variant="secondary"
                 className="
                 self-center
                 m-4">
                     Finalizar compra
                 </Button>
+                {success && (
+                    <p className="text-green-600 text-center mb-2">
+                        Compra realizada con éxito! ID: {orderId}
+                    </p>
+                )}
+                {error && (
+                    <p className="text-red-500 text-center mb-2">
+                        Error al procesar la compra
+                    </p>
+                )}
             </div>
         </div>
     );
