@@ -42,10 +42,10 @@ function AdventuresContainer() {
     if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
     const filterClass = ({isActive}) => 
-        `px-4 py-2 rounded-[8px] text-[12px] transition border shadow-lg
+        `px-4 py-2 rounded-lg text-xs transition-all duration-300 border shadow-lg
         ${isActive
-            ? "bg-[#025159] text-white border-black"
-            : "bg-white text-gray-700 border-gray-100 hover:bg-gray-100 hover:-translate-y-[2px]"
+            ? "bg-[#025159]/80 text-white border-[#025159] shadow-xl -translate-y-1"
+            : "bg-white/70 text-[var(--color-text-soft)] font-semibold border-gray-100 hover:bg-[#025159]/20 hover:-translate-y-1"
         }`;
 
     const handlerClearFilters = () => {
@@ -55,12 +55,25 @@ function AdventuresContainer() {
 
     return (
         <main>
-            <h1 className="text-[32px] text-center font-semibold text-orange-800 p-4">
+            <h1 className="
+            text-xl md:text-3xl lg:text-4xl
+            text-center 
+            font-semibold 
+            text-orange-800 p-4">
                 Experiencias
             </h1>
-            <div className="flex flex-col md:flex-row justify-around items-center gap-6 m-10">
-                <div className="flex flex-wrap gap-4 justify-center">
-                    <p className="text-[var(--color-text-soft)]">Filtros</p>
+            <div className="
+            flex 
+            flex-col lg:flex-row 
+            justify-around items-center 
+            gap-4 m-10">
+                <div className="
+                flex flex-wrap 
+                gap-2
+                justify-center items-center">
+                    <p className="
+                    text-[var(--color-text-soft)]
+                    text-sm">Filtros</p>
                     <NavLink to="/experiences" end 
                     className={filterClass}>
                         Todas
@@ -82,7 +95,16 @@ function AdventuresContainer() {
                     <select 
                     value={city} 
                     onChange={(e) => setCity(e.target.value)}
-                    className="px-4 py-2 rounded-[8px] border border-gray-100 bg-white shadow-lg hover:bg-gray-100 transition">
+                    className="
+                    px-4 py-2 
+                    rounded-lg 
+                    border border-gray-100 
+                    bg-white/70 
+                    shadow-lg 
+                    text-[var(--color-text-soft)] text-xs 
+                    font-semibold
+                    hover:bg-bg-[#025939]/20
+                    transition-all duration-300">
                         <option value="">Todas las ciudades</option>
                         <option value="Montevideo">Montevideo</option>
                         <option value="Maldonado">Maldonado</option>

@@ -13,7 +13,8 @@ export default function Profile() {
         bg-white
         rounded-xl
         shadow-md
-        p-4">
+        p-4
+        text-[var(--color-text)]">
             <div className="
             flex flex-row 
             gap-7 
@@ -22,19 +23,20 @@ export default function Profile() {
                 <img 
                 src={usuario} 
                 alt="usuario" 
-                className="w-10 h-10"/>
+                className="w-10 h-10 opacity-70"/>
                 <p>
                     {user.name || user.email} 
                 </p>
             </div>
             <div className="
-            flex flex-row justify-between
+            flex flex-row 
+            justify-center md:justify-between
             items-center
             mb-4">
-                <p>
+                <p className="mr-4">
                     Tu carrito:
                 </p>
-                <span>total: {totalItems} productos</span>
+                <span>total {totalItems} productos</span>
             </div>
             <Button
                 onClick={() => { 
@@ -45,7 +47,7 @@ export default function Profile() {
                 className="
                 self-center
                 mb-4">
-                    Mostrar carrito    
+                    Ver carrito    
             </Button> 
             <Button
             onClick={logout}

@@ -69,7 +69,7 @@ const Login = () => {
             />
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <Button
-            onClick={handleSubmitLogin}
+            type="submit"
             variant="secondary">
                 Iniciar sesión
             </Button>

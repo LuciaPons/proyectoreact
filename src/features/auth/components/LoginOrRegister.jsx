@@ -18,14 +18,16 @@ const LoginOrRegister = () => {
                     mt-4
                     pt-3
                     gap-3
-                    border-t-[2px]">
-                        <p>
-                            No estas registrado?{" "}
+                    border-t-2">
+                        <p className="
+                        text-[var(--color-text-soft)]
+                        text-base">
+                            No estás registrado?{" "}
                         </p>
                         <Button
                             onClick={() => setMode("register")}
                             variant="primary">
-                                Registrate
+                                Regístrate
                         </Button>
                     </div>
                 ) : (
@@ -36,7 +38,8 @@ const LoginOrRegister = () => {
                     pt-3 
                     gap-3
                     border-t-[2px] ">
-                        <p>
+                        <p className="
+                        text-[var(--color-text-soft)]">
                             Ya tienes cuenta?
                         </p>
                         <Button

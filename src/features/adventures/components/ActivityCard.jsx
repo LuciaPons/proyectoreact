@@ -12,7 +12,7 @@ function ActivityCard({ activity }) {
         bg-white
         rounded-2xl
         w-full
-        gap-4
+        flex flex-col
         shadow-md
         overflow-hidden
         transition duration-300
@@ -25,14 +25,23 @@ function ActivityCard({ activity }) {
                 className="w-full h-full object-cover" />
             </div>
             <div className="p-4 space-y-2">
-                <h3 className="text-lg font-semibold text-[var(--color-text)] text-center">
+                <h3 className="
+                text-lg 
+                font-semibold 
+                text-[var(--color-text)] 
+                text-center">
                     {activity.activity}
                 </h3>
-                <p className="text-[16px] text-[var(--color-text-soft)]">
+                <p className="
+                text-sm md:text-base
+                text-[var(--color-text-soft)]">
                     Ubicación: {activity.city}
                 </p>
 
-                <div className="flex justify-between text-[16px] text-[var(--color-text-soft)]">
+                <div className="
+                flex flex-row md:flex-col lg:flex-row justify-between 
+                text-sm md:text-base
+                text-[var(--color-text-soft)]">
                     <span>
                         Duración: {activity.duration}
                     </span>
@@ -41,15 +50,27 @@ function ActivityCard({ activity }) {
                     </span>
                 </div>
             </div>
-            <div className="flex justify-between items-center p-4 ">
-                <span className="text-lg font-bold text-orange-600">
+            <div className="
+            flex flex-row md:flex-col lg:flex-row  justify-between 
+            items-center p-4 ">
+                <span className="
+                text-base md:text-lg 
+                font-bold 
+                text-orange-600">
                     Precio: ${activity.price}
                 </span>
-                <span className="text-[14px] text-[var(--color-text-soft)]">
+                <span className="
+                text-sm md:text-base 
+                text-[var(--color-text-soft)]">
                     {activity.availableSpots <= 3 ? (
-                        <div className="flex flex-col items-end">
+                        <div className="
+                        flex flex-col 
+                        items-end md:items-center lg:items-end
+                        text-right md:text-center lg:text-right">
                             <p>{activity.availableSpots} cupos disponibles</p>
-                            <p className="text-[var(--color-primary)] text-underline">
+                            <p className="
+                            text-[var(--color-primary)]
+                            text-underline">
                                 Quedan pocos cupos disponibles!
                             </p>
                         </div>
@@ -58,9 +79,10 @@ function ActivityCard({ activity }) {
                     )}
                 </span>
             </div>
-            <span className="flex justify-center mb-4">
+            <span className="flex justify-center mt-auto mb-4">
                 <Link to={`/experiences/detail/${activity.id}`}>
-                    <Button variant="primary">
+                    <Button 
+                    variant="primary">
                         Ver detalle
                     </Button>
                 </Link>

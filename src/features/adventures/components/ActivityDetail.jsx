@@ -7,9 +7,9 @@ const ActivityDetail = ({ activity }) => {
     if (!activity) return null;
 
     const difficultyStyles = {
-        suave: "bg-emerald-100 border-[2px] border-emerald-200 text-emerald-700",
-        media: "bg-orange-100 border-[2px] border-orange-200 text-orange-600",
-        extrema: "bg-red-100 border-[2px] border-red-200 text-red-700",
+        suave: "bg-emerald-100 border-2 border-emerald-200 text-emerald-700",
+        media: "bg-orange-100 border-2 border-orange-200 text-orange-600",
+        extrema: "bg-red-100 border-2 border-red-200 text-red-700",
     }
 
     const availableSpots = activity.availableSpots > 0;
@@ -23,7 +23,6 @@ const ActivityDetail = ({ activity }) => {
         bg-white
         rounded-2xl
         w-3/4 
-        h-[70vh]
         mx-auto
         my-12
         overflow-hidden
@@ -96,7 +95,7 @@ const ActivityDetail = ({ activity }) => {
                         }
                     </Button>
                     <Link 
-                    to={`/experiences/${activity.id}`}
+                    to={`./experiences/${activity.id}`}
                     className="
                     text-orange-600 
                     font-semibold

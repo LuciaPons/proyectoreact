@@ -18,9 +18,9 @@ export const AuthProvider = ({ children }) => {
         const unsuscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser({
-                    uid: user.id,
+                    uid: user.uid,
                     email: user.email,
-                    name: user.displayName
+                    name: user.displayName || ""
                 });
             }else {
                 setUser(null);
@@ -37,10 +37,6 @@ export const AuthProvider = ({ children }) => {
         }
     }, [user]);
 
-    const login = (userData) => {
-        setUser(userData);
-    };
-
     const logout = async () => {
         await signOut(auth);
         setUser(null);
@@ -50,7 +46,6 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 user,
-                login,
                 logout,
                 isOpen,
                 mode,

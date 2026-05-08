@@ -25,18 +25,27 @@ function ExperienciasDestacadas() {
     return (
         <section>
             <h2 
-            className="text-[32px] text-center font-semibold text-orange-800 p-4">
+            className="
+            text-xl md:text-3xl lg:text-4xl 
+            text-center 
+            font-semibold 
+            text-orange-800
+            p-4">
                 Aventuras Destacadas
             </h2>
             <div>
                 <AdventuresList 
                 activities={featured} 
-                variant="featured"/>
+                variant="featured"
+                className="
+                flex flex-col lg:flex-row"/>
             </div>
             <Button 
             onClick={() => navigate("/experiences")}
             variant="secondary"
-            className="block mx-auto mt-6">
+            className="
+            block 
+            mx-auto mt-6">
                 Ver Todas las Experiencias
             </Button>
             

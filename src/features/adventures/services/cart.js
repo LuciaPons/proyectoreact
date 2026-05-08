@@ -1,25 +1,24 @@
-import { collection, getDocs, addDoc, query, where, updateDoc, doc } from "firebase/firestore";
+import { collection, getDoc, getDocs, addDoc, deleteDoc, query, updateDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../services/firebase";
-import { deleteDoc } from "firebase/firestore";
 
 export const addToCartFirebase = async (uid, product, quantity) => {
-    const cartRef = collection(db, "users", uid, "cart");
-    const q = query(cartRef, where("activityId", "==", product.id));
-    const snapshot = await getDocs(q);
+    const itemRef = doc(db, "users", uid, "cart", product.id);
+    const snapshot = await getDoc(itemRef);
 
-    if (!snapshot.empty) {
-        const existingDoc = snapshot.docs[0];
-        const currentQty = existingDoc.data().quantity;
+    if (snapshot.exists()) {
+        const currentQty = snapshot.data().quantity || 0;
 
-        await updateDoc(doc(db, "users", uid, "cart", existingDoc.id), {
+        await setDoc(itemRef, {
+            ...product,
             quantity: currentQty + quantity
         });
     }else {
-        await addDoc(cartRef, {
+        await setDoc(itemRef, {
             ...product,
             quantity
         });
     }
+    console.log("Guardando en Firebase...");
 };
 
 export const getCartFirebase = async (uid) => {
@@ -32,21 +31,14 @@ export const getCartFirebase = async (uid) => {
     }));
 };
 
-export const removeFromCartFirebase = async (uid, activityId) => {
-    const cartRef = collection(db, "users", uid, "cart");
-    const q = query(cartRef, where("activityId", "==", activityId));
-    const snapshot = await getDocs(q);
-
-    snapshot.forEach(async(docItem) => {
-        await deleteDoc(docItem.ref);
-    });
+export const removeFromCartFirebase = async (uid, id) => {
+    await deleteDoc(doc(db, "users", uid, "cart", id));
 };
 
 export const clearCartFirebase = async (uid) => {
     const cartRef = collection(db, "users", uid, "cart");
     const snapshot = await getDocs(cartRef);
 
-    snapshot.forEach(async(docItem) => {
-        await deleteDoc(docItem.ref);
-    });
+    const deletions = snapshot.docs.map((docItem) => deleteDoc(docItem.ref));
+    await Promise.all(deletions);
 };

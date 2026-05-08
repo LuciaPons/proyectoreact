@@ -17,27 +17,48 @@ const AuthDrawer = () => {
             {isOpen && (
                 <div 
                 onClick={closeAuth}
-                className="fixed inset-0 bg-black/40 z-40"
+                className="
+                fixed inset-0 
+                bg-black/50 backdrop-blur-sm
+                z-40"
                 />
             )}
             <div className={`
                 fixed
                 top-0 left-0
-                h-full w-80
+                h-full 
                 bg-[#FAF3E6]
-                shadow-xl
                 z-50
-                transform transition-transform duration-300
-                ${isOpen ? "translate-x-0" : "-translate-x-full"}
+                transition-transform duration-300 ease-in-out
+                w-full md:w-80 
+
+                ${isOpen 
+                    ? "translate-x-0" 
+                    : "-translate-x-full"
+                }
                 `}>
-                <div className="p-4 flex justify-between items-center border-b border-b-[2px]">
-                    <h2 className="font-bold text-lg"
+                <div className="
+                flex justify-between 
+                items-center 
+                p-4 
+                border-b-2">
+                    <h2 className="
+                    text-[var(--color-text)]
+                    font-bold 
+                    text-base md:text-lg"
                     >
                         {title}
                     </h2>
                     <button
                     onClick={closeAuth}
-                    className="font-bold">
+                    className="
+                    text-[var(--color-text)]
+                    font-bold
+                    text-2xl
+                    p-2
+                    transition-all duration-300
+                    hover:-translate-y-1
+                    hover:drop-shadow-[0_0_15px_rgba(2,81,89,0.9)]">
                         X
                     </button>
                 </div>

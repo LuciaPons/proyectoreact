@@ -4,15 +4,18 @@ import carrito from '../../assets/icons/carrito.png';
 import { NavLink, Link } from 'react-router-dom';
 import { useCart } from '../../features/cart/context/CartContext';
 import { useAuth } from '../../features/auth/context/AuthContext';
+import { useState } from 'react';
 
 
 export default function Navbar() {
+
+    const [menuOpen, setMenuOpen] = useState(false);
     
     const activeClass = ({isActive}) => 
         `relative text-[18px] transition px-3 py-1 
         ${isActive 
             ? "text-[var(--color-primary)]" 
-            : "text-black"}
+            : "text-[var(--color-text-soft)]"}
             after:content-['']
             after:absolute
             after:left-0
@@ -32,19 +35,45 @@ export default function Navbar() {
     const {toggleCart, totalItems } = useCart();
     
     return (
-        <header className="sticky top-0 z-50 flex justify-between items-center px-10 py-1 bg-gradient-to-r from-[#faf3e6] via-[#c94e01]/40 to-[#004b57]/40 backdrop-blur border-b border-white">
+        <header className="
+        sticky 
+        top-0 z-50 
+        flex justify-between items-center 
+        px-10 py-1 
+        bg-gradient-to-r from-[#faf3e6] via-[#c94e01]/40 to-[#004b57]/40 
+        backdrop-blur 
+        border-b border-white">
             <div>
                 <Link to="/">
                     <img 
                     src={logo} 
                     alt="Logo" 
-                    className="h-20 hover:opacity-80 transition border-none rounded-[10px] " />
+                    className="
+                    h-[10vh] md:h-[13vh] 
+                    transition-all duration-300  
+                    rounded-lg
+                    hover:bg-white/10
+                    hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] " />
                 </Link>
             </div>
-            <nav className="flex flex-col md:flex-row items-center gap-1 md:gap-8">
+            <nav className={`
+            absolute top-full left-0 
+            w-full 
+            bg-[#faf3e6]
+            flex flex-col items-center 
+            gap-4 
+            py-4
+            transition-all duration-300
+            md:static md:flex md:flex-row md:bg-transparent md:py-0 md:w-auto md:gap-8
+
+            ${menuOpen 
+                ? "block bg-[#faf3e6]/80" 
+                : "hidden md:flex"}
+            `}>
                 <NavLink 
                 to="/"
                 className={activeClass}
+                onClick={() => setMenuOpen(false)}
                 >
                     Inicio
                 </NavLink>
@@ -58,12 +87,26 @@ export default function Navbar() {
             </nav>
             
             <div className="flex items-center gap-4">
+                <button
+                className='
+                md:hidden 
+                text-2xl text-[var(--color-text-soft)]
+                hover:-translate-y-1
+                hover:transition'
+                onClick={() => setMenuOpen(prev => !prev)}>
+                    ☰
+                </button>
                 <button 
                 onClick={toggleAuth}>
                     <img 
                     src={avatar} 
                     alt="Avatar" 
-                    className="h-10 cursor-pointer hover:opacity-80 transition" />
+                    className="
+                    h-10 w-10
+                    transition-all duration-300 
+                    cursor-pointer 
+                    hover:-translate-y-1
+                    hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]" />
                 </button>
                 <button 
                 onClick={toggleCart}
@@ -71,17 +114,19 @@ export default function Navbar() {
                     <img 
                     src={carrito} 
                     alt="Carrito" 
-                    className="h-10  cursor-pointer hover:opacity-80 transition" />
+                    className="
+                    w-10 h-10 
+                    transition-all duration-300 cursor-pointer 
+                    hover:-translate-y-1
+                    hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]" />
                     <span className='
-                    absolute -bottom-3 right-2 
-                    w-5 h-5
-                    text-xs
-                    rounded-full
-                    bg-[#bf4904c5]
-                    text-white 
+                    absolute 
+                    -top-2 -right-2 
+                    w-6 h-6
+                    text-lg
+                    text-[var(--color-text)] 
                     font-bold
-                    flex items-center justify-center
-                    shadow-md'>
+                    flex items-center justify-center'>
                         {totalItems}
                     </span>
                 </button>

@@ -18,11 +18,15 @@ export const CartProvider = ({ children }) => {
     const { user } = useAuth();
 
     useEffect(() => {
-        if (user) {
-            getCartFirebase(user.uid).then(setCartItems);
-        }else {
+        if (!user) {
             setCartItems([]);
+            return;
         }
+        const fetchCart = async () => {
+            const data = await getCartFirebase(user.uid);
+            setCartItems(data);
+        };
+        fetchCart();
     }, [user]);
 
     const addToCart = async (product, quantity = 1) => {
@@ -44,6 +48,7 @@ export const CartProvider = ({ children }) => {
         if (user) {
             await addToCartFirebase(user.uid, product, quantity);
         }
+        console.log("USER EN ADD:", user);
     };
 
     const removeFromCart = async (id) => {
@@ -56,7 +61,9 @@ export const CartProvider = ({ children }) => {
     const clearCart = async () => {
         setCartItems([]);
         if (user) {
-            await clearCartFirebase(user.id);
+            await clearCartFirebase(user.uid);
+            const updatedCart = await getCartFirebase(user.uid);
+            setCartItems(updatedCart);
         }
     };
 
