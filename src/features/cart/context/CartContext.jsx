@@ -10,6 +10,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [purchasedItems, setPurchasedItems] = useState([]);
 
     const openCart = () => setIsOpen(true);
     const closeCart = () => setIsOpen(false);
@@ -35,6 +36,14 @@ export const CartProvider = ({ children }) => {
         setCartItems((prevItems) => {
             const existingItem = prevItems.find((item) => item.id === product.id);
 
+            const currentQty = existingItem ? existingItem.quantity : 0;
+            const maxAvailable = product.availableSpots;
+
+            if (currentQty + quantity > maxAvailable) {
+                alert("No hay suficientes cupos disponibles");
+                return prevItems;
+            }
+
             if (!existingItem) {
                 return [...prevItems, { ...product, quantity }];
             }
@@ -48,7 +57,7 @@ export const CartProvider = ({ children }) => {
         if (user) {
             await addToCartFirebase(user.uid, product, quantity);
         }
-        console.log("USER EN ADD:", user);
+        console.log("User firebase:", user);
     };
 
     const removeFromCart = async (id) => {
@@ -67,15 +76,16 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const totalItems = cartItems.reduce ((acc, item) => acc + item.quantity,0);
+    const totalItems = cartItems.reduce ((acc, item) => acc + item.quantity, 0);
 
-    const totalPrice = cartItems.reduce((acc, item) => acc + item.price *item.quantity, 
-    0);
+    const totalPrice = cartItems.reduce((acc, item) => acc + item.price *item.quantity, 0);
 
     return (
         <CartContext.Provider 
             value={{ 
                 cartItems, 
+                purchasedItems,
+                setPurchasedItems,
                 addToCart, 
                 removeFromCart, 
                 clearCart, 

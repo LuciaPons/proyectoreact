@@ -12,7 +12,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     
     const activeClass = ({isActive}) => 
-        `relative text-[18px] transition px-3 py-1 
+        `relative text-sm md:text-[18px] transition-all duration-300 px-3 py-1 
         ${isActive 
             ? "text-[var(--color-primary)]" 
             : "text-[var(--color-text-soft)]"}
@@ -49,7 +49,7 @@ export default function Navbar() {
                     src={logo} 
                     alt="Logo" 
                     className="
-                    h-[10vh] md:h-[13vh] 
+                    h-[8vh] md:h-[13vh] 
                     transition-all duration-300  
                     rounded-lg
                     hover:bg-white/10
@@ -61,7 +61,7 @@ export default function Navbar() {
             w-full 
             bg-[#faf3e6]
             flex flex-col items-center 
-            gap-4 
+            gap-1 md:gap-4 
             py-4
             transition-all duration-300
             md:static md:flex md:flex-row md:bg-transparent md:py-0 md:w-auto md:gap-8
@@ -72,7 +72,8 @@ export default function Navbar() {
             `}>
                 <NavLink 
                 to="/"
-                className={activeClass}
+                className=
+                {activeClass}
                 onClick={() => setMenuOpen(false)}
                 >
                     Inicio
@@ -90,7 +91,8 @@ export default function Navbar() {
                 <button
                 className='
                 md:hidden 
-                text-2xl text-[var(--color-text-soft)]
+                text-center
+                text-xl text-[var(--color-text-soft)]
                 hover:-translate-y-1
                 hover:transition'
                 onClick={() => setMenuOpen(prev => !prev)}>
@@ -102,7 +104,7 @@ export default function Navbar() {
                     src={avatar} 
                     alt="Avatar" 
                     className="
-                    h-10 w-10
+                    w-8 h-8 md:w-10 md:h-10 
                     transition-all duration-300 
                     cursor-pointer 
                     hover:-translate-y-1
@@ -115,7 +117,7 @@ export default function Navbar() {
                     src={carrito} 
                     alt="Carrito" 
                     className="
-                    w-10 h-10 
+                    w-8 h-8 md:w-10 md:h-10 
                     transition-all duration-300 cursor-pointer 
                     hover:-translate-y-1
                     hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]" />

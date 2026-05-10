@@ -15,7 +15,6 @@ export default function ActivityDetailContainer() {
     useEffect(() => {
         setLoading(true);
         setError("");
-
         getActivityById(activityId)
         .then(setActivity)
         .catch((error) => setError("Actividad no encontrada."))

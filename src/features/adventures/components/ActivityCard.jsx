@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
+import { useCart } from "../../cart/context/CartContext";
 
 function ActivityCard({ activity }) {
+    const { purchasedItems } = useCart();
 
     if (!activity) return null;
-    console.log(activity);
-    
+
+    const purchasedQty = purchasedItems
+        .filter(item => item.activityId === activity.id)
+        .reduce((acc, item) => acc + item.quantity, 0);
+
+    const availableSpots = activity.availableSpots - purchasedQty;
 
     return(
         <div className="
@@ -62,12 +68,13 @@ function ActivityCard({ activity }) {
                 <span className="
                 text-sm md:text-base 
                 text-[var(--color-text-soft)]">
-                    {activity.availableSpots <= 3 ? (
+                    {availableSpots <= 3 
+                    ? ( 
                         <div className="
                         flex flex-col 
                         items-end md:items-center lg:items-end
                         text-right md:text-center lg:text-right">
-                            <p>{activity.availableSpots} cupos disponibles</p>
+                            <p>{availableSpots} cupos disponibles</p>
                             <p className="
                             text-[var(--color-primary)]
                             text-underline">
@@ -75,7 +82,7 @@ function ActivityCard({ activity }) {
                             </p>
                         </div>
                     ): (
-                        <p>{activity.availableSpots} cupos disponibles</p>
+                        <p>{availableSpots} cupos disponibles</p>
                     )}
                 </span>
             </div>

@@ -3,15 +3,28 @@ import { useAuth } from "../../auth/context/AuthContext";
 import { createOrder } from "../../adventures/services/orders";
 import CartItem  from "../components/CartItem";
 import Button from "../../../components/ui/Button"
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 
 const Cart = () => {
-    const { cartItems, totalPrice, clearCart } = useCart();
+    const { cartItems, totalPrice, clearCart, setPurchasedItems } = useCart();
     const { user, openAuth } = useAuth();
     const [orderId, setOrderId] = useState(null);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+
+    useEffect(() => {
+        if(success) {
+            const timer = setTimeout(() => setSuccess(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [success]);
+
+    useEffect(() => {
+        if(error) {
+            const timer = setTimeout(() => setError(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const handleCheckout = async () => {
         setSuccess(false);
@@ -21,31 +34,27 @@ const Cart = () => {
             openAuth();
             return;
         }
+
         if (cartItems.length === 0) {
             return;
         }
+
         try {
             const orderId = await createOrder(
                 user.uid,
                 cartItems,
                 totalPrice
             );
-            setOrderId(orderId);
-            await clearCart();
-            console.log("Orden creada:", orderId);
-            setSuccess(true);
 
-            setTimeout(() => {
-                setSuccess(false);
-            }, 3000);
+            setPurchasedItems((prev) => [...prev, ...cartItems]);
+            await clearCart();
+            setOrderId(orderId);
+            setSuccess(true);
+            console.log("Orden creada:", orderId);
 
         } catch (error) {
             console.error(error);
             setError(true);
-
-            setTimeout(() => {
-                setError(false);
-            }, 3000);
         }
     };
     

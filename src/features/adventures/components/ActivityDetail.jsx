@@ -1,9 +1,12 @@
 import { useCart } from "../../../features/cart/context/CartContext";
 import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
+import { useState } from "react";
 
 const ActivityDetail = ({ activity }) => {
-    const { addToCart } = useCart();
+    const { addToCart, purchasedItems } = useCart();
+    const [loading, setLoading] = useState(false);
+
     if (!activity) return null;
 
     const difficultyStyles = {
@@ -11,11 +14,18 @@ const ActivityDetail = ({ activity }) => {
         media: "bg-orange-100 border-2 border-orange-200 text-orange-600",
         extrema: "bg-red-100 border-2 border-red-200 text-red-700",
     }
-
+    
     const availableSpots = activity.availableSpots > 0;
+    const purchasedQty = purchasedItems
+        .filter(item => item.id === activity.id)
+        .reduce((acc, item) => acc + item.quantity, 0);
+    const remainingSpots = activity.availableSpots - purchasedQty;
 
-    const handleAddToCart = () => {
-        addToCart(activity, 1)
+    const handleAddToCart = async () => {
+        if (loading) return;
+        setLoading(true);
+        await addToCart(activity, 1);
+        setLoading(false);
     };
 
     return (
@@ -70,9 +80,9 @@ const ActivityDetail = ({ activity }) => {
                     Precio: ${activity.price}
                 </p>
                 <p className={`
-                ${availableSpots ? "text-green-600" : "text-red-600"}`}>
-                {activity.availableSpots > 0
-                ? `Cupos disponibles: ${activity.availableSpots}`
+                ${remainingSpots ? "text-green-600" : "text-red-600"}`}>
+                {remainingSpots > 0
+                ? `Cupos disponibles: ${remainingSpots}`
                 : "No hay cupos disponibles"}
                 </p>
                 <p className="text-gray-500 leading-relaxed">
@@ -81,21 +91,21 @@ const ActivityDetail = ({ activity }) => {
                 <div className="flex flex-wrap gap-3 items-center">
                     <Button 
                     onClick={handleAddToCart} 
-                    disabled={!availableSpots}
+                    disabled={remainingSpots <= 0}
                     variant="primary"
                     className={`
-                        ${availableSpots
+                        ${remainingSpots
                         ? "variant= primary"
                         : "bg-gray-200 text-gray-400 cursor-not-allowed"}
                     `}
                     >
-                        {availableSpots 
+                        {remainingSpots > 0
                         ? "Agregar al carrito" 
                         : "Sin cupos disponibles"
                         }
                     </Button>
                     <Link 
-                    to={`./experiences/${activity.id}`}
+                    to="/experiences"
                     className="
                     text-orange-600 
                     font-semibold

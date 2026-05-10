@@ -15,6 +15,7 @@ export const addToCartFirebase = async (uid, product, quantity) => {
     }else {
         await setDoc(itemRef, {
             ...product,
+            activityId: product.id,
             quantity
         });
     }

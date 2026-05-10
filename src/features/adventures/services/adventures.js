@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, increment, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 
 const activitiesCollection = collection ( db, "activities");
@@ -6,10 +6,13 @@ const activitiesCollection = collection ( db, "activities");
 export const getActivities = async () => {
     const snapshot = await getDocs (activitiesCollection);
 
-    return snapshot.docs.map (doc => ({
-        id: doc.id,
-        ...doc.data()
-    }));
+    return snapshot.docs.map (doc => {
+        const data = doc.data();
+        return {
+            id: doc.id,
+            ...data,
+        }
+    });
 };
 
 export const getActivityById = async (id) => {
@@ -19,7 +22,6 @@ export const getActivityById = async (id) => {
     if (!snapshot.exists()) {
         throw new Error("Actividad no encontrada");
     }
-
     return {
         id: snapshot.id,
         ...snapshot.data()

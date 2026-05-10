@@ -9,7 +9,7 @@ export default function Footer() {
             <img 
                 src={footer} 
                 alt="Footer" 
-                className="w-full h-[40vh] object-cover opacity-85"
+                className="loading-lazy w-full h-[40vh] object-cover opacity-85"
             />
             <div className="absolute inset-0 bg-white/50" />
             <div className="absolute inset-0 flex flex-col justify-between px-6 py-8 text-gray-600 max-w-7xl mx-auto">
@@ -30,18 +30,30 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="flex gap-5">
-                        <img 
-                            src={facebook} 
-                            alt="Facebook" 
-                            className="h-6 hover:opacity-70 cursor-pointer transition"/>
+                        <a 
+                        href="https://www.facebook.com/?locale=es_LA"
+                        target="_blank">
+                            <img 
+                                src={facebook} 
+                                alt="Facebook" 
+                                className="h-6 hover:opacity-70 cursor-pointer transition"/>
+                        </a>
+                        <a 
+                        href="https://www.instagram.com/?hl=es"
+                        target="_blank">
                         <img 
                             src={instagram} 
                             alt="Instagram" 
                             className="h-6 hover:opacity-70 cursor-pointer transition"/>
+                        </a>
+                        <a 
+                        href="https://x.com/?lang=es"
+                        target="_blank">    
                         <img 
                             src={twitter} 
                             alt="Twitter" 
                             className="h-6 hover:opacity-70 cursor-pointer transition"/>
+                        </a>
                     </div>
                     <p className="text-sm text-gray-600 text-center md:text-right">
                         © 2026 Zona Límite. Todos los derechos reservados.

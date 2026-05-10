@@ -4,6 +4,7 @@ import { useParams, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AdventuresList from "./AdventuresList";
 import Button from "../../../components/ui/Button";
+import { useCart } from "../../cart/context/CartContext";
 
 function AdventuresContainer() {
     const [activities, setActivities] = useState([]);
@@ -12,6 +13,7 @@ function AdventuresContainer() {
     const [error, setError] = useState("");
     const {levelId} = useParams();
     const navigate = useNavigate();
+    const { purchasedItems } = useCart();
 
     useEffect(() => {
         setLoading(true);
@@ -31,12 +33,24 @@ function AdventuresContainer() {
                         item => item.city === city
                     );
                 }
+                
+                if (purchasedItems.length > 0) {
+                    filtered = filtered.map(activity => {
+                        const purchasedQty = purchasedItems
+                        .filter(i => i.id === activity.id)
+                        .reduce((acc, item) => acc + item.quantity, 0);
+                        return {
+                            ...activity,
+                            availableSpots: activity.availableSpots - purchasedQty
+                        };
+                    });
+                }
                 setActivities(filtered)
             })
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
             
-    },[levelId, city]);
+    },[levelId, city, purchasedItems]);
 
     if (loading) return <p className="text-center mt-10">Cargando experiencias...</p>;
     if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
