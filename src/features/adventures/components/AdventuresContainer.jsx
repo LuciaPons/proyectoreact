@@ -7,109 +7,116 @@ import Button from "../../../components/ui/Button";
 import { useCart } from "../../cart/context/CartContext";
 
 function AdventuresContainer() {
-    const [activities, setActivities] = useState([]);
-    const [city, setCity] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const {levelId} = useParams();
-    const navigate = useNavigate();
-    const { purchasedItems } = useCart();
+  const [activities, setActivities] = useState([]);
+  const [city, setCity] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const { levelId } = useParams();
+  const navigate = useNavigate();
+  const { purchasedItems } = useCart();
 
-    useEffect(() => {
-        setLoading(true);
-        
-        getActivities()
-            .then((data) => {
-                let filtered = data;
+  useEffect(() => {
+    setLoading(true);
+    //try {}
+    getActivities()
+      .then((data) => {
+        let filtered = data;
 
-                if (levelId) {
-                    filtered = filtered.filter(
-                        item => item.difficulty?.toLowerCase().trim() === levelId.toLowerCase()
-                    );
-                }
+        if (levelId) {
+          filtered = filtered.filter(
+            (item) =>
+              item.difficulty?.toLowerCase().trim() === levelId.toLowerCase(),
+          );
+        }
 
-                if (city) {
-                    filtered = filtered.filter(
-                        item => item.city === city
-                    );
-                }
-                
-                if (purchasedItems.length > 0) {
-                    filtered = filtered.map(activity => {
-                        const purchasedQty = purchasedItems
-                        .filter(i => i.id === activity.id)
-                        .reduce((acc, item) => acc + item.quantity, 0);
-                        return {
-                            ...activity,
-                            availableSpots: activity.availableSpots - purchasedQty
-                        };
-                    });
-                }
-                setActivities(filtered)
-            })
-            .catch((err) => setError(err.message))
-            .finally(() => setLoading(false));
-            
-    },[levelId, city, purchasedItems]);
+        if (city) {
+          filtered = filtered.filter((item) => item.city === city);
+        }
 
-    if (loading) return <p className="text-center mt-10">Cargando experiencias...</p>;
-    if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
+        if (purchasedItems.length > 0) {
+          filtered = filtered.map((activity) => {
+            const purchasedQty = purchasedItems
+              .filter((i) => i.id === activity.id)
+              .reduce((acc, item) => acc + item.quantity, 0);
+            return {
+              ...activity,
+              availableSpots: activity.availableSpots - purchasedQty,
+            };
+          });
+        }
+        setActivities(filtered);
+      })
+      //catch
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [levelId, city, purchasedItems]);
 
-    const filterClass = ({isActive}) => 
-        `px-4 py-2 rounded-lg text-xs transition-all duration-300 border shadow-lg
-        ${isActive
+  if (loading)
+    return <p className="text-center mt-10">Cargando experiencias...</p>;
+  if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
+
+  const filterClass = ({ isActive }) =>
+    `px-4 py-2 rounded-lg text-xs transition-all duration-300 border shadow-lg
+        ${
+          isActive
             ? "bg-[#025159]/80 text-white border-[#025159] shadow-xl -translate-y-1"
             : "bg-white/70 text-[var(--color-text-soft)] font-semibold border-gray-100 hover:bg-[#025159]/20 hover:-translate-y-1"
         }`;
 
-    const handlerClearFilters = () => {
-        setCity("");
-        navigate("/experiences");
-    }
+  const handlerClearFilters = () => {
+    setCity("");
+    navigate("/experiences");
+  };
 
-    return (
-        <main>
-            <h1 className="
+  return (
+    <main>
+      <h1
+        className="
             text-xl md:text-3xl lg:text-4xl
             text-center 
             font-semibold 
-            text-orange-800 p-4">
-                Experiencias
-            </h1>
-            <div className="
+            text-orange-800 p-4"
+      >
+        Experiencias
+      </h1>
+      <div
+        className="
             flex 
             flex-col lg:flex-row 
             justify-around items-center 
-            gap-4 m-10">
-                <div className="
+            gap-4 m-10"
+      >
+        <div
+          className="
                 flex flex-wrap 
                 gap-2
-                justify-center items-center">
-                    <p className="
+                justify-center items-center"
+        >
+          <p
+            className="
                     text-[var(--color-text-soft)]
-                    text-sm">Filtros</p>
-                    <NavLink to="/experiences" end 
-                    className={filterClass}>
-                        Todas
-                    </NavLink>
-                    <NavLink to="/experiences/level/suave" 
-                    className={filterClass}>
-                        Suave
-                    </NavLink>
-                    <NavLink to="/experiences/level/media" 
-                    className={filterClass}>
-                        Media
-                    </NavLink>
-                    <NavLink to="/experiences/level/extrema" 
-                    className={filterClass}>
-                        Extrema
-                    </NavLink>
-                </div>
-                <div>
-                    <select 
-                    value={city} 
-                    onChange={(e) => setCity(e.target.value)}
-                    className="
+                    text-sm"
+          >
+            Filtros
+          </p>
+          <NavLink to="/experiences" end className={filterClass}>
+            Todas
+          </NavLink>
+          <NavLink to="/experiences/level/suave" className={filterClass}>
+            Suave
+          </NavLink>
+          <NavLink to="/experiences/level/media" className={filterClass}>
+            Media
+          </NavLink>
+          <NavLink to="/experiences/level/extrema" className={filterClass}>
+            Extrema
+          </NavLink>
+        </div>
+        <div>
+          <select
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="
                     px-4 py-2 
                     rounded-lg 
                     border border-gray-100 
@@ -118,37 +125,29 @@ function AdventuresContainer() {
                     text-[var(--color-text-soft)] text-xs 
                     font-semibold
                     hover:bg-bg-[#025939]/20
-                    transition-all duration-300">
-                        <option value="">Todas las ciudades</option>
-                        <option value="Montevideo">Montevideo</option>
-                        <option value="Maldonado">Maldonado</option>
-                        <option value="Lavalleja">Lavalleja</option>
-                    </select>
-                </div>
-                <Button 
-                    onClick={handlerClearFilters}
-                    variant="secondary"
-                >
-                    Limpiar filtros
-                </Button>
-            </div>
-            <section className="adventures-container">
-                {activities.length === 0 ? (
-                    <p className="text-center mt-10">
-                        No encontramos experiencias con esos filtros... 
-                    </p>
-                    
-                ) : (
-                    <AdventuresList 
-                    activities={activities}
-                    variant="all" />
-                )
-                }
-                
-            </section>
-        </main>
-        
-    );
+                    transition-all duration-300"
+          >
+            <option value="">Todas las ciudades</option>
+            <option value="Montevideo">Montevideo</option>
+            <option value="Maldonado">Maldonado</option>
+            <option value="Lavalleja">Lavalleja</option>
+          </select>
+        </div>
+        <Button onClick={handlerClearFilters} variant="secondary">
+          Limpiar filtros
+        </Button>
+      </div>
+      <section className="adventures-container">
+        {activities.length === 0 ? (
+          <p className="text-center mt-10">
+            No encontramos experiencias con esos filtros...
+          </p>
+        ) : (
+          <AdventuresList activities={activities} variant="all" />
+        )}
+      </section>
+    </main>
+  );
 }
 
 export default AdventuresContainer;
