@@ -1,5 +1,3 @@
-
-
 /* const DELAY_MS = 400;
 
 function delay(ms = DELAY_MS) {
@@ -8,7 +6,7 @@ function delay(ms = DELAY_MS) {
 
 const activities = [
     {
-        id: 1, 
+        id: "1", 
         activity: "Caminata", 
         difficulty: "suave",
         city: "Montevideo",
@@ -22,7 +20,7 @@ const activities = [
         featured: false
     },
     {
-        id: 2, 
+        id: "2", 
         activity: "Yoga",
         difficulty: "suave", 
         city: "Montevideo",
@@ -36,7 +34,7 @@ const activities = [
         featured: true
     },
     {
-        id: 3, 
+        id: "3", 
         activity: "Trekking", 
         difficulty: "media",
         city: "Maldonado",
@@ -50,7 +48,7 @@ const activities = [
         featured: true
     },
     {
-        id: 4, 
+        id: "4", 
         activity: "Paddelsurf", 
         difficulty: "media",
         city: "Maldonado",
@@ -64,7 +62,7 @@ const activities = [
         featured: false
     },
     {
-        id: 5, 
+        id: "5", 
         activity: "Rappel",
         difficulty: "extrema", 
         city: "Lavalleja",
@@ -78,7 +76,7 @@ const activities = [
         featured: false
     },
     {
-        id: 6, 
+        id: "6", 
         activity: "Paracaidismo",
         difficulty: "extrema", 
         city: "Maldonado",

@@ -1,61 +1,53 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../../services/firebase";
+import { auth } from "../../adventures/services/firebase";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const [mode, setMode] = useState("login");
+  const [user, setUser] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState("login");
 
-    const openAuth = () => setIsOpen(true);
-    const closeAuth = () => setIsOpen(false);
-    const toggleAuth = () => setIsOpen((prev) => !prev);
+  const openAuth = () => setIsOpen(true);
+  const closeAuth = () => setIsOpen(false);
+  const toggleAuth = () => setIsOpen((prev) => !prev);
 
-    useEffect(() => {
-        const unsuscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser({
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.displayName || ""
-                });
-            }else {
-                setUser(null);
-            }
+  useEffect(() => {
+    const unsuscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName || "",
         });
-        return () => unsuscribe();
-    },[]);
-
-    useEffect(() => {
-        if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-        } else {
-            localStorage.removeItem("user");
-        }
-    }, [user]);
-
-    const logout = async () => {
-        await signOut(auth);
+      } else {
         setUser(null);
-    };
+      }
+    });
+    return () => unsuscribe();
+  }, []);
 
-    return (
-        <AuthContext.Provider
-            value={{
-                user,
-                logout,
-                isOpen,
-                mode,
-                setMode,
-                openAuth,
-                closeAuth,
-                toggleAuth }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const logout = async () => {
+    await signOut(auth);
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        logout,
+        isOpen,
+        mode,
+        setMode,
+        openAuth,
+        closeAuth,
+        toggleAuth,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-export const useAuth = () => useContext(AuthContext);

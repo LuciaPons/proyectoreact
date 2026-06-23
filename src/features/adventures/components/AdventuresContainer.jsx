@@ -1,10 +1,10 @@
-import { getActivities, getByCity, getByLevel } from "../services/adventures";
+import { getActivities } from "../services/adventures";
 import { useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AdventuresList from "./AdventuresList";
 import Button from "../../../components/ui/Button";
-import { useCart } from "../../cart/context/CartContext";
+import { useCart } from "../../adventures/hooks/useCart";
 
 function AdventuresContainer() {
   const [activities, setActivities] = useState([]);

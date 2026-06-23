@@ -5,38 +5,50 @@ import {
   deleteDoc,
   doc,
   setDoc,
+  increment,
+  updateDoc,
 } from "firebase/firestore";
-import { db } from "../../../services/firebase";
+import { db } from "./firebase";
 
 export const addToCartFirebase = async (uid, product, quantity) => {
-  const itemRef = doc(db, "users", uid, "cart", product.id);
-  const snapshot = await getDoc(itemRef);
+  try {
+    if (!uid) throw new Error("Usuario no autenticado");
+    const itemRef = doc(db, "users", uid, "cart", product.id);
+    const snapshot = await getDoc(itemRef);
 
-  if (snapshot.exists()) {
-    const currentQty = snapshot.data().quantity || 0;
-
-    await setDoc(itemRef, {
-      ...product,
-      quantity: currentQty + quantity,
-    });
-  } else {
-    await setDoc(itemRef, {
-      ...product,
-      activityId: product.id,
-      quantity,
-    });
+    if (snapshot.exists()) {
+      await updateDoc(itemRef, {
+        quantity: increment(quantity),
+      });
+    } else {
+      await setDoc(itemRef, {
+        activityId: product.id,
+        activity: product.activity,
+        price: product.price,
+        quantity,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al agregar al carrito");
   }
-  console.log("Guardando en Firebase...");
 };
 
 export const getCartFirebase = async (uid) => {
-  const cartRef = collection(db, "users", uid, "cart");
-  const snapshot = await getDocs(cartRef);
+  try {
+    if (!uid) throw new Error("Usuario no autenticado");
 
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+    const cartRef = collection(db, "users", uid, "cart");
+    const snapshot = await getDocs(cartRef);
+
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al cargar el carrito");
+  }
 };
 
 export const removeFromCartFirebase = async (uid, id) => {
